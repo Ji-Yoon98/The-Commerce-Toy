@@ -1,5 +1,6 @@
 package com.toy.user.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -30,10 +31,16 @@ public class UserService {
         user.setName(userDTO.getName());
         user.setPhone(userDTO.getPhone());
         user.setEmail(userDTO.getEmail());
-        user.setJoinDate(userDTO.getJoinDate());
+        user.setJoinDate(LocalDate.now());
 
         return userRepository.save(user);
     }
+	
+	// ID 중복확인
+	public boolean checkUserId(String nickname) {
+		return userRepository.existsByUserId(nickname);
+	}
+
 	
 	// 조회
 	public Page<User> findPage(int page, int pageSize, String sort) {
@@ -47,9 +54,16 @@ public class UserService {
         User existingUser = userRepository.findByUserId(userId);
 
         existingUser.setNickname(userDTO.getNickname());
+        existingUser.setPassword(userDTO.getPassword());
 
         return userRepository.save(existingUser);
     }
+	
+	// 사용자 ID로 정보 조회
+	public User getOnlyUser(Long id) {
+		return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다: " + id));
+	}
 	
 
 }
