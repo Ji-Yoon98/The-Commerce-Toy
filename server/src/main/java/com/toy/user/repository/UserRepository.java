@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import com.toy.user.entity.User;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long>{
+public interface UserRepository extends JpaRepository<User, Long> {
 
+	User findByUserId(String userId);
 }
