@@ -7,6 +7,7 @@ import com.toy.user.entity.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-
+	
+	// userId 조회
 	User findByUserId(String userId);
 }
