@@ -2,18 +2,33 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
 `;
 
 export const Tab = styled.div`
   width: 650px;
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  margin: 0 auto;
 
   a {
+    flex: 1;
     text-decoration: none;
     font-size: 2rem;
+    margin-top: 25px;
+  }
+
+  button {
+    border: none;
+    margin-left: right;
+    background-color: #fff;
+    cursor: pointer;
+  }
+
+  div {
+    flex: 1;
+    text-align: right;
     margin-top: 25px;
   }
 `;
@@ -22,8 +37,7 @@ export const Title = styled.h2`
   color:#555;
   margin-top: 50px;
   text-align: center;
-  margin-left: auto;
-  margin-right: auto;
+  flex:2;
 `;
 
 export const Ul = styled.ul`
@@ -111,7 +125,7 @@ export const TableCell = styled.td`
 `;
 
 export const TbodyRow = styled.tr`
-  border-bottom: 1px solid #ddd;
+border-bottom: 1px solid #ddd;
   cursor: pointer;
 
   &:hover {
