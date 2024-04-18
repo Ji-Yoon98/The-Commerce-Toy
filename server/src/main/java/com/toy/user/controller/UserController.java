@@ -33,21 +33,18 @@ public class UserController {
         User userJoin = userService.join(userDTO);
 
         if (userJoin != null) {
-            // 정상적으로 생성
-            return new ResponseEntity<>(userJoin, HttpStatus.CREATED);
+            return ResponseEntity.status(HttpStatus.CREATED).body(userJoin);
         } else {
-            // 실패
-            return new ResponseEntity<>("Failed to create user", HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("사용자 생성 실패");
         }
     }
 	
 	// ID 중복확인
 	@GetMapping("/isExist/{userId}")
 	public ResponseEntity<Boolean> checkNickname(@PathVariable String userId) {
-
-		boolean isDuplicate  = userService.checkUserId(userId);
-
-		return ResponseEntity.ok(isDuplicate);
+		
+		boolean isDuplicate = userService.checkUserId(userId);
+        return ResponseEntity.ok(isDuplicate);
 	}
 
 	// 회원 조회 및, 페이징 처리
@@ -57,22 +54,24 @@ public class UserController {
             @RequestParam(defaultValue = "10") int pageSize,
             @RequestParam(defaultValue = "joinDate") String sort
     ) {
-		Page<User> users = userService.findPage(page, pageSize, sort);
-        return new ResponseEntity<>(users, HttpStatus.OK);
+            Page<User> users = userService.findPage(page, pageSize, sort);
+            return ResponseEntity.ok(users);
     }
 	
 	// 회원 정보 수정 (비밀번호,닉네임)
 	@PutMapping("/{userId}")
     public ResponseEntity<User> updateUser(@PathVariable String userId, @RequestBody UserDTO userDTO) {
         User updatedUser = userService.updateUser(userId, userDTO);
-        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+        
+        return ResponseEntity.ok(updatedUser);
     }
 	
 	// 각 회원 조회
 	@GetMapping("/{id}")
 	public ResponseEntity<User> getOnlyUser(@PathVariable Long id) {
 		 User user = userService.getOnlyUser(id);
-		    return new ResponseEntity<>(user, HttpStatus.OK);
+		 
+		 return ResponseEntity.ok(user);
 	}
 	
 }
