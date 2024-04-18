@@ -1,7 +1,5 @@
 package com.toy.user.controller;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +17,9 @@ import com.toy.user.entity.User;
 import com.toy.user.service.UserService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/user")
@@ -30,6 +30,8 @@ public class UserController {
 	// 회원가입
 	@PostMapping("/join")
     public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO) {
+		log.info("회원가입 컨트롤러 확인");
+		
         User userJoin = userService.join(userDTO);
 
         if (userJoin != null) {
@@ -42,6 +44,7 @@ public class UserController {
 	// ID 중복확인
 	@GetMapping("/isExist/{userId}")
 	public ResponseEntity<Boolean> checkNickname(@PathVariable String userId) {
+		log.info("중복확인 컨트롤러 확인");
 		
 		boolean isDuplicate = userService.checkUserId(userId);
         return ResponseEntity.ok(isDuplicate);
@@ -54,24 +57,34 @@ public class UserController {
             @RequestParam(defaultValue = "10") int pageSize,
             @RequestParam(defaultValue = "joinDate") String sort
     ) {
-            Page<User> users = userService.findPage(page, pageSize, sort);
-            return ResponseEntity.ok(users);
+		log.info("회원 조회 및, 페이징 처리 컨트롤러 확인");
+        
+		Page<User> users = userService.userPage(page, pageSize, sort);
+        return ResponseEntity.ok(users);
     }
 	
 	// 회원 정보 수정 (비밀번호,닉네임)
 	@PutMapping("/{userId}")
     public ResponseEntity<User> updateUser(@PathVariable String userId, @RequestBody UserDTO userDTO) {
-        User updatedUser = userService.updateUser(userId, userDTO);
+		log.info("회원 정보 수정 컨트롤러 확인");
+		
+		try {
+			User updatedUser = userService.updateUser(userId, userDTO);
+			return ResponseEntity.ok(updatedUser);
+		} catch (Exception e) {
+			return ResponseEntity.noContent().build();
+		}
         
-        return ResponseEntity.ok(updatedUser);
     }
 	
 	// 각 회원 조회
 	@GetMapping("/{id}")
 	public ResponseEntity<User> getOnlyUser(@PathVariable Long id) {
-		 User user = userService.getOnlyUser(id);
+		log.info("ID에 맞는 회원 조회 컨트롤러 확인");
+		
+		User user = userService.getOnlyUser(id);
 		 
-		 return ResponseEntity.ok(user);
+		return ResponseEntity.ok(user);
 	}
 	
 }
