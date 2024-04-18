@@ -47,13 +47,17 @@ const UserDetailPage = () => {
     }
 
     try {
-      await axios.put(`${apiUrl}/${user.userId}`, user); 
-      alert('사용자 정보가 성공적으로 업데이트되었습니다.');
-      window.location.href = `/user`;
+      const response = await axios.put(`${apiUrl}/${user.userId}`, user); 
+      if (response.status === 200) {
+        alert('사용자 정보가 성공적으로 업데이트되었습니다.');
+        window.location.href = `/user`;
+      } else if (response.status === 204) {
+        alert('변경된 내용이 없습니다.');
+      }
     } catch (error) {
-      console.error('Error update user:', error);
-      
-      alert('사용자 정보 업데이트에 실패했습니다.');
+
+        console.error('Error update user:', error);
+        alert('사용자 정보 업데이트에 실패했습니다.');
     }
 
 };
