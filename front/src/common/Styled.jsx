@@ -2,12 +2,15 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  width: 650px;
+  margin: 0 auto;
 `;
 
 export const Tab = styled.div`
-  width: 650px;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -106,6 +109,7 @@ export const Button = styled.button`
 
 
 export const Table = styled.table`
+  width: 100%;
   border-collapse: collapse;
   margin-bottom: 20px;
 `;
