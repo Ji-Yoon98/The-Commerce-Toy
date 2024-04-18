@@ -35,6 +35,12 @@ export const validateName = (name) => {
     alert('이름을 입력해주세요.');
     return false;
   }
+
+  if (!/^[가-힣]*$/.test(name)) {
+    alert('이름은 한글로만 입력해주세요.');
+    return false;
+  }
+
   return true;
 };
 
